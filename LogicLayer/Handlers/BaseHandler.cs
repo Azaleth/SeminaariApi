@@ -4,9 +4,12 @@ using Db.Entities;
 using LogicLayer.HandlerInterfaces;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Api.UnitTests")]
 namespace LogicLayer.Handlers
 {
+    
     public abstract class BaseHandler<API_ENTITY, DB_ENTITY> : IBasicHandler<API_ENTITY>
         where API_ENTITY : BaseEntity
         where DB_ENTITY : BaseDbClass
@@ -15,6 +18,8 @@ namespace LogicLayer.Handlers
         internal abstract DB_ENTITY Convert(API_ENTITY apiEntity);
         internal IEnumerable<API_ENTITY> Convert(IEnumerable<DB_ENTITY> dbEntities)
         {
+            if (dbEntities == null)
+                return null;
             List<API_ENTITY> students = new List<API_ENTITY>();
             foreach (var item in dbEntities)
                 students.Add(Convert(item));

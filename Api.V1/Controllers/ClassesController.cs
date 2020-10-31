@@ -7,23 +7,23 @@ namespace Api.V1.Controllers
 {
     public class ClassesController : BaseController, IBasicController<Class>
     {
-        // GET api/Classs
+        // GET api/Classes
         [HttpGet]
         public IEnumerable<Class> Get(int skip = DEFAULT_SKIP, int take = DEFAULT_TAKE) => HandlerFactory.ClassHandler.Get(skip, take);
 
-        // GET api/Classs/5
+        // GET api/Classes/5
         [HttpGet("{id}")]
         public Class Get(Guid id) => HandlerFactory.ClassHandler.Get(id);
 
-        // POST api/Classs
+        // POST api/Classes
         [HttpPost]
         public Guid Post([FromBody] Class value) => HandlerFactory.ClassHandler.Add(value);
 
-        // PUT api/Classs/5
+        // PUT api/Classes/5
         [HttpPut("{id}")]
         public void Put(Guid id, [FromBody] Class value) => HandlerFactory.ClassHandler.Update(id, value);
 
-        // DELETE api/Classs/5
+        // DELETE api/Classes/5
         [HttpDelete("{id}")]
         public void Delete(Guid id) => HandlerFactory.ClassHandler.Delete(id);
     }

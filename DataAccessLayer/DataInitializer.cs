@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace DataAccessLayer
 {
-    public class DataInitializer
+    public class DataInitializer : IDataInitializer
     {
-        private static Random RNG = new Random();
+        protected static readonly Random RNG = new Random();
 
         #region identifiers
         public static readonly Guid classId1 = new Guid("77ac6d84-4d07-4e2e-a2dc-00476630723f");
@@ -74,28 +74,28 @@ namespace DataAccessLayer
             "Jerrold Girard",
             "Gale Hollars",
         };
-        private static string GetRandomName()
+        protected string GetRandomName()
         {
             int index = RNG.Next(_randomNames.Count());
             return _randomNames[index];
         }
-        private static string GetFirstName()
+        protected string GetFirstName()
         {
             return GetRandomName().Split(' ')[0];
         }
-        private static string GetLastName()
+        protected string GetLastName()
         {
             return GetRandomName().Split(' ')[1];
         }
         #endregion
-        private static DateTime GetRandomDateTime()
+        protected DateTime GetRandomDateTime()
         {
             DateTime start = new DateTime(1964, 1, 1);
             DateTime end = new DateTime(1995, 1, 1);
             int range = (end - start).Days;
             return start.AddDays(RNG.Next(range));
         }
-        public static void Initialize(SchoolDbContext context)
+        public  virtual void Initialize(SchoolDbContext context)
         {
             context.Database.EnsureCreated();
             InitClasses(context);            
@@ -103,7 +103,7 @@ namespace DataAccessLayer
             InitGrades(context);
             InitTeachers(context);
         }
-        private static void InitClasses(SchoolDbContext context)
+        protected virtual void InitClasses(SchoolDbContext context)
         {
             if (context.Classes.Any())
             {
@@ -150,7 +150,7 @@ namespace DataAccessLayer
 
             context.SaveChanges();
         }
-        private static void InitGrades(SchoolDbContext context)
+        protected virtual void InitGrades(SchoolDbContext context)
         {
             if (context.Grades.Any())
             {
@@ -196,7 +196,7 @@ namespace DataAccessLayer
 
             context.SaveChanges();
         }
-        private static void InitStudents(SchoolDbContext context)
+        protected virtual void InitStudents(SchoolDbContext context)
         {
             if (context.Students.Any())
             {
@@ -243,7 +243,7 @@ namespace DataAccessLayer
 
             context.SaveChanges();
         }
-        private static void InitTeachers(SchoolDbContext context)
+        protected virtual void InitTeachers(SchoolDbContext context)
         {
             if (context.Teachers.Any())
             {

@@ -1,4 +1,6 @@
-﻿using Db.Entities;
+﻿using Api.Common.Exceptions;
+using DataAccessLayer.Extensions;
+using Db.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ namespace DataAccessLayer
 {
     public abstract class BaseDataBaseHandler : IDataBaseHandler<BaseDbClass>
     {
-        protected SchoolDbContext DbContext => SchoolDbContext.DbContext;
+        protected SchoolDbContext DbContext { get; } = DatabaseContextHelper.GetSchoolDbContext();
         public abstract Guid Add(BaseDbClass iDaoEntity);
         public abstract void Delete(Guid id);
         public abstract IEnumerable<BaseDbClass> Get(int skip, int take);
@@ -34,11 +36,9 @@ namespace DataAccessLayer
         public override void Delete(Guid id)
         {
             DbSet<T> DbSet = GetDbSet(DbContext);
-            var dbTeacher = DbSet.FirstOrDefault(entity => entity.Id == id);
-            if (dbTeacher == null)
-                throw new ArgumentException(id.ToString());
-            DbContext.Remove(dbTeacher);
-
+            var dbEntity = DbSet.GetWithCheck(id);
+            DbContext.Remove(dbEntity);
+            DbContext.SaveChanges();
         }
 
         public override IEnumerable<BaseDbClass> Get(int skip, int take)
@@ -49,19 +49,19 @@ namespace DataAccessLayer
         public override BaseDbClass Get(Guid id)
         {
             DbSet<T> DbSet = GetDbSet(DbContext);
-            return DbSet.FirstOrDefault(entity => entity.Id == id);
-
+            var dbEntity = DbSet.GetWithCheck(id);
+            return dbEntity;
         }
 
         public override void Update(Guid id, BaseDbClass dbClass)
         {
             DbSet<T> DbSet = GetDbSet(DbContext);
-            var dbTeacher = DbSet.FirstOrDefault(entity => entity.Id == id);
-            if (dbTeacher != null)
-                DbContext.Remove(dbTeacher);
+            var dbEntity = DbSet.FirstOrDefault(entity => entity.Id == id);
+            if (dbEntity != null)
+                DbContext.Remove(dbEntity);
             DbSet.Add(dbClass as T);
             DbContext.SaveChanges();
-
         }
+        
     }
 }

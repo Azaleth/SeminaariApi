@@ -24,7 +24,7 @@ namespace LogicLayer.Handlers
                 LastName = dbEntity.LastName,
                 //Classes = new ClassHandler().Convert(dbEntity.Classes),
                 Grades = new GradeHandler().Convert(dbEntity.Grades),
-            };
+            };            
         }
 
         internal override Db.Entities.Student Convert(Student apiEntity)

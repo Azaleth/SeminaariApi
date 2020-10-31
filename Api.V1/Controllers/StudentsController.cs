@@ -15,8 +15,7 @@ namespace Api.V1.Controllers
         public IEnumerable<Student> Get(int skip = DEFAULT_SKIP, int take = DEFAULT_TAKE) => HandlerFactory.StudentHandler.Get(skip, take);
 
         // GET api/Students
-        [HttpGet("{id}")]
-        [Route("api/[controller]/GetGrades")]
+        [HttpGet("{id}/Grades")]
         public IEnumerable<Grade> GetGrades(Guid id) => HandlerFactory.StudentHandler.GetGrades(id);
 
         // GET api/Students/5
