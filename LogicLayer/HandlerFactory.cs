@@ -8,7 +8,7 @@ namespace LogicLayer
     {
         public IStudentHandler StudentHandler => new StudentHandler();
         public ITeacherHandler TeacherHandler => new TeacherHandler();
-        public IBasicHandler<Class> ClassHandler => new ClassHandler();
-        public IBasicHandler<Grade> GradeHandler => new GradeHandler();
+        public IClassesHandler ClassHandler => new ClassHandler();
+        public IGradesHandler GradeHandler => new GradeHandler();
     }
 }

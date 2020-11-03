@@ -16,9 +16,13 @@ namespace Api.V1.Controllers
         [HttpGet("{id}")]
         public Teacher Get(Guid id) => HandlerFactory.TeacherHandler.Get(id);
 
+        // GET api/Teachers/5/Classes
+        [HttpGet("{id}/Classes")]
+        public IEnumerable<Class> GetClasses(Guid id) => HandlerFactory.ClassHandler.GetTeacherClasses(id);
+
         // POST api/Teachers
         [HttpPost]
-        public Guid Post([FromBody] Teacher value) => HandlerFactory.TeacherHandler.Add(value);
+        public Guid Post([FromBody] Teacher value) => HandlerFactory.TeacherHandler.Insert(value);
 
         // PUT api/Teachers/5
         [HttpPut("{id}")]

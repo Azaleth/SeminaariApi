@@ -2,6 +2,7 @@ using Api.Common.Exceptions;
 using DataAccessLayer;
 using Db.Entities;
 using LogicLayer.Handlers;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Api.UnitTests
     internal class StudentTests : UnitTestBase
     {
         private static readonly string testStudentFirstnames = "Testi testing";
-        private static readonly string testStudentLastName = "Oppilas";        
+        private static readonly string testStudentLastName = "Oppilas";
         protected override IDataInitializer DataInitializer => new StudentDataInitializer();
 
         [Test]
@@ -48,6 +49,18 @@ namespace Api.UnitTests
             var handler = new StudentHandler();
             Assert.Throws(typeof(NotFoundException), () => { handler.Get(Guid.NewGuid()); });
         }
+        [Test]
+        public void Insert_MissingData_Throws()
+        {
+            var handler = new StudentHandler();
+            var student = new API.Student()
+            {
+                FirstNames = "testi oppilas",
+            };
+            var ex = Assert.Throws(typeof(DbUpdateException), () => handler.Insert(student));
+            Assert.IsNotNull(ex.InnerException);
+            Assert.AreEqual("SQLite Error 19: 'NOT NULL constraint failed: Students.LastName'.", ex.InnerException.Message);
+        }
 
         internal class StudentDataInitializer : DataInitializer
         {
@@ -79,7 +92,7 @@ namespace Api.UnitTests
                         FirstNames = testStudentFirstnames,
                         LastName = testStudentLastName
                     }
-                };  
+                };
             }
             public override void Initialize(SchoolDbContext context)
             {

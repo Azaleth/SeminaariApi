@@ -8,16 +8,20 @@ namespace DataAccessLayer.Handlers
 {
     public class StudentDatabaseHandler : BaseDataBaseHandler<Student>
     {
+        protected override IQueryable<Student> AddIncludes(IQueryable<Student> queryable)
+        {
+            return queryable.Include(nameof(Student.Classes)).Include(nameof(Student.Grades));
+        }
         protected override DbSet<Student> GetDbSet(SchoolDbContext context)
         {
             return context.Students;
         }
-        public IEnumerable<Grade> GetGrades(Guid studentId)
+        public IEnumerable<Student> GetClassStudents(Guid classId)
         {
-            return DbContext.Students
-                .Include(nameof(Student.Grades))
-                .Single(student => student.Id == studentId)
-                .Grades;
+            return DbContext.LinkStudentClasses
+                .Include(nameof(LinkStudentClass.Student))
+                .Where(link => link.ClassId == classId)
+                .Select(link => link.Student);
         }
     }
 }

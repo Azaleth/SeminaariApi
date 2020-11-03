@@ -21,6 +21,8 @@ namespace DataAccessLayer
                 builder.UseSqlite(CreateInMemoryDatabase());
                 options = builder.Options;
                 _schoolDbContext = new SchoolDbContext(options);
+                if (dataInitializer == null)
+                    dataInitializer = new DataInitializer();
                 dataInitializer.Initialize(_schoolDbContext);
             }
             return _schoolDbContext;

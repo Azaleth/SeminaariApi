@@ -6,7 +6,7 @@ namespace Api.Entities
 {
     public class Student : Person
     {
-        public IEnumerable<Grade> Grades { get; set; }
-        public IEnumerable<Class> Classes { get; set; }
+        public IEnumerable<Guid> Grades { get; set; }
+        public IEnumerable<Guid> Classes { get; set; }
     }
 }

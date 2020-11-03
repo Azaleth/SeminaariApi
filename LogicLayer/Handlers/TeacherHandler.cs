@@ -1,12 +1,13 @@
 ﻿using Api.Entities;
 using LogicLayer.HandlerInterfaces;
+using System;
 using System.Collections.Generic;
 
 namespace LogicLayer.Handlers
 {
     public class TeacherHandler : BaseHandler<Teacher,Db.Entities.Teacher>, ITeacherHandler
     {
-        public IEnumerable<Class> GetClasses()
+        public IEnumerable<Class> GetClasses(Guid teacherId)
         {
             throw new System.NotImplementedException();
         }

@@ -15,9 +15,13 @@ namespace Api.V1.Controllers
         [HttpGet("{id}")]
         public Class Get(Guid id) => HandlerFactory.ClassHandler.Get(id);
 
+        // GET api/Classes/5/Students
+        [HttpGet("{id}/Students")]
+        public IEnumerable<Student> GetStudents(Guid id) => HandlerFactory.StudentHandler.GetClassStudents(id);
+
         // POST api/Classes
         [HttpPost]
-        public Guid Post([FromBody] Class value) => HandlerFactory.ClassHandler.Add(value);
+        public Guid Post([FromBody] Class value) => HandlerFactory.ClassHandler.Insert(value);
 
         // PUT api/Classes/5
         [HttpPut("{id}")]
@@ -26,5 +30,9 @@ namespace Api.V1.Controllers
         // DELETE api/Classes/5
         [HttpDelete("{id}")]
         public void Delete(Guid id) => HandlerFactory.ClassHandler.Delete(id);
+
+        // GET api/Classes/Throw
+        [HttpGet("Throw")]
+        public void Throw() => throw new NotImplementedException("this is not implemented");
     }
 }

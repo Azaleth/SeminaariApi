@@ -20,8 +20,11 @@ namespace DataAccessLayer
     public abstract class BaseDataBaseHandler<T> : BaseDataBaseHandler
         where T : BaseDbClass
     {
-        protected abstract DbSet<T> GetDbSet(SchoolDbContext context);
-
+        protected abstract DbSet<T> GetDbSet(SchoolDbContext context);        
+        protected virtual IQueryable<T> AddIncludes(IQueryable<T> queryable)
+        {
+            return queryable;
+        }
         public override Guid Add(BaseDbClass dbClass)
         {
             dbClass.Id = Guid.NewGuid();
@@ -43,7 +46,7 @@ namespace DataAccessLayer
 
         public override IEnumerable<BaseDbClass> Get(int skip, int take)
         {
-            return GetDbSet(DbContext).Skip(skip).Take(take).AsEnumerable();
+            return AddIncludes(GetDbSet(DbContext).Skip(skip).Take(take)).AsEnumerable();
         }
 
         public override BaseDbClass Get(Guid id)

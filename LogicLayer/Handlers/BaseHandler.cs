@@ -1,21 +1,23 @@
 ﻿using Api.Entities;
 using DataAccessLayer;
-using Db.Entities;
+using DB = Db.Entities;
 using LogicLayer.HandlerInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using DataAccessLayer.Handlers;
 
 [assembly: InternalsVisibleTo("Api.UnitTests")]
 namespace LogicLayer.Handlers
 {
-    
+
     public abstract class BaseHandler<API_ENTITY, DB_ENTITY> : IBasicHandler<API_ENTITY>
         where API_ENTITY : BaseEntity
-        where DB_ENTITY : BaseDbClass
+        where DB_ENTITY : DB.BaseDbClass
     {
         internal abstract API_ENTITY Convert(DB_ENTITY dbEntity);
         internal abstract DB_ENTITY Convert(API_ENTITY apiEntity);
+        protected virtual void Validate(API_ENTITY apiEntity) { }
         internal IEnumerable<API_ENTITY> Convert(IEnumerable<DB_ENTITY> dbEntities)
         {
             if (dbEntities == null)
@@ -31,11 +33,11 @@ namespace LogicLayer.Handlers
             foreach (var item in dbEntities)
                 students.Add(Convert(item));
             return students;
-        }
+        }        
 
         protected BaseDataBaseHandler<DB_ENTITY> Handler => DataBaseHandlerFactory.GetHandler<DB_ENTITY>(typeof(DB_ENTITY));        
 
-        public Guid Add(API_ENTITY IEntity)
+        public Guid Insert(API_ENTITY IEntity)
         {
             return Handler.Add(Convert(IEntity));
         }

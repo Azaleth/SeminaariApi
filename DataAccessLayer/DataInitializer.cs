@@ -95,13 +95,67 @@ namespace DataAccessLayer
             int range = (end - start).Days;
             return start.AddDays(RNG.Next(range));
         }
-        public  virtual void Initialize(SchoolDbContext context)
+        public virtual void Initialize(SchoolDbContext context)
         {
             context.Database.EnsureCreated();
-            InitClasses(context);            
+            InitTeachers(context);
+            InitClasses(context);
             InitStudents(context);
             InitGrades(context);
-            InitTeachers(context);
+            InitLinkStudentClass(context);
+            context.SaveChanges();
+        }
+        protected virtual void InitTeachers(SchoolDbContext context)
+        {
+            if (context.Teachers.Any())
+            {
+                return;   // Data was already seeded
+            }
+            context.Teachers.AddRange(
+                new Teacher
+                {
+                    Id = teacherId1,
+                    BirthDay = GetRandomDateTime(),
+                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
+                    LastName = GetLastName()
+                },
+                new Teacher
+                {
+                    Id = teacherId2,
+                    BirthDay = GetRandomDateTime(),
+                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
+                    LastName = GetLastName()
+                },
+                new Teacher
+                {
+                    Id = teacherId3,
+                    Classes = context.Classes.Where(c => c.Id == classId3).ToList(),
+                    BirthDay = GetRandomDateTime(),
+                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
+                    LastName = GetLastName()
+                },
+                new Teacher
+                {
+                    Id = teacherId4,
+                    BirthDay = GetRandomDateTime(),
+                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
+                    LastName = GetLastName()
+                },
+                new Teacher
+                {
+                    Id = teacherId5,
+                    BirthDay = GetRandomDateTime(),
+                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
+                    LastName = GetLastName()
+
+                },
+                new Teacher
+                {
+                    Id = teacherId6,
+                    BirthDay = GetRandomDateTime(),
+                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
+                    LastName = GetLastName()
+                });
         }
         protected virtual void InitClasses(SchoolDbContext context)
         {
@@ -114,41 +168,45 @@ namespace DataAccessLayer
                 {
                     Id = classId1,
                     Identifier = "kooodaus-101",
-                    Subject = "Ohjelmoinnin Alkeet"
+                    Subject = "Ohjelmoinnin Alkeet",
+                    TeacherId = teacherId1,
                 },
                 new Class
                 {
                     Id = classId2,
                     Identifier = "kooodaus-201",
-                    Subject = "Ohjelmoinnin jatkeet"
+                    Subject = "Ohjelmoinnin jatkeet",
+                    TeacherId = teacherId2,
                 },
                 new Class
                 {
                     Id = classId3,
                     Identifier = "kooodaus-301",
-                    Subject = "Ohjelmoinnin loput"
+                    Subject = "Ohjelmoinnin loput",
+                    TeacherId = teacherId3,
                 },
                 new Class
                 {
                     Id = classId4,
                     Identifier = "kooodaus-404",
-                    Subject = "Ohjelmoinnin ?"
+                    Subject = "Ohjelmoinnin ?",
+                    TeacherId = teacherId4,
                 },
                 new Class
                 {
                     Id = classId5,
                     Identifier = "SWE-666",
-                    Subject = "virkamiesruotsi"
+                    Subject = "virkamiesruotsi",
+                    TeacherId = teacherId5,
 
                 },
                 new Class
                 {
                     Id = classId6,
                     Identifier = "math-101",
-                    Subject = "Diskreetti laskenta"
+                    Subject = "Diskreetti laskenta",
+                    TeacherId = teacherId6,
                 });
-
-            context.SaveChanges();
         }
         protected virtual void InitGrades(SchoolDbContext context)
         {
@@ -162,39 +220,43 @@ namespace DataAccessLayer
                     Id = gradeId1,
                     ClassId = classId1,
                     StudentId = studentId1,
+                    TeacherId = teacherId1,
                 },
                 new Grade
                 {
                     Id = gradeId2,
                     ClassId = classId2,
                     StudentId = studentId2,
+                    TeacherId = teacherId2,
                 },
                 new Grade
                 {
                     Id = gradeId3,
                     ClassId = classId3,
                     StudentId = studentId3,
+                    TeacherId = teacherId3,
                 },
                 new Grade
                 {
                     Id = gradeId4,
                     ClassId = classId4,
                     StudentId = studentId4,
+                    TeacherId = teacherId4,
                 },
                 new Grade
                 {
                     Id = gradeId5,
                     ClassId = classId5,
                     StudentId = studentId5,
+                    TeacherId = teacherId5,
                 },
                 new Grade
                 {
                     Id = gradeId6,
                     ClassId = classId6,
                     StudentId = studentId6,
+                    TeacherId = teacherId6,
                 });
-
-            context.SaveChanges();
         }
         protected virtual void InitStudents(SchoolDbContext context)
         {
@@ -240,67 +302,56 @@ namespace DataAccessLayer
                     FirstNames = $@"{GetFirstName()} {GetFirstName()}",
                     LastName = GetLastName()
                 });
-
-            context.SaveChanges();
         }
-        protected virtual void InitTeachers(SchoolDbContext context)
+        protected virtual void InitLinkStudentClass(SchoolDbContext context)
         {
-            if (context.Teachers.Any())
+            if (context.LinkStudentClasses.Any())
             {
                 return;   // Data was already seeded
             }
-            context.Teachers.AddRange(
-                new Teacher
+            context.LinkStudentClasses.AddRange(
+                new LinkStudentClass
                 {
-                    Id = teacherId1,
-                    Classes = context.Classes.Where(c => c.Id == classId1).ToList(),
-                    BirthDay = GetRandomDateTime(),
-                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
-                    LastName = GetLastName()
+                    Id = Guid.NewGuid(),
+                    ClassId = classId1,
+                    StudentId = studentId1,
                 },
-                new Teacher
+                new LinkStudentClass
                 {
-                    Id = teacherId2,
-                    Classes = context.Classes.Where(c => c.Id == classId2).ToList(),
-                    BirthDay = GetRandomDateTime(),
-                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
-                    LastName = GetLastName()
+                    Id = Guid.NewGuid(),
+                    ClassId = classId2,
+                    StudentId = studentId2,
                 },
-                new Teacher
+                new LinkStudentClass
                 {
-                    Id = teacherId3,
-                    Classes = context.Classes.Where(c => c.Id == classId3).ToList(),
-                    BirthDay = GetRandomDateTime(),
-                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
-                    LastName = GetLastName()
+                    Id = Guid.NewGuid(),
+                    ClassId = classId3,
+                    StudentId = studentId3,
                 },
-                new Teacher
+                new LinkStudentClass
                 {
-                    Id = teacherId4,
-                    Classes = context.Classes.Where(c => c.Id == classId4).ToList(),
-                    BirthDay = GetRandomDateTime(),
-                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
-                    LastName = GetLastName()
+                    Id = Guid.NewGuid(),
+                    ClassId = classId4,
+                    StudentId = studentId4,
                 },
-                new Teacher
+                new LinkStudentClass
                 {
-                    Id = teacherId5,
-                    Classes = context.Classes.Where(c => c.Id == classId5).ToList(),
-                    BirthDay = GetRandomDateTime(),
-                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
-                    LastName = GetLastName()
-
+                    Id = Guid.NewGuid(),
+                    ClassId = classId5,
+                    StudentId = studentId5,
                 },
-                new Teacher
+                new LinkStudentClass
                 {
-                    Id = teacherId6,
-                    Classes = context.Classes.Where(c => c.Id == classId6).ToList(),
-                    BirthDay = GetRandomDateTime(),
-                    FirstNames = $@"{GetFirstName()} {GetFirstName()}",
-                    LastName = GetLastName()
-                });
-
-            context.SaveChanges();
+                    Id = Guid.NewGuid(),
+                    ClassId = classId6,
+                    StudentId = studentId6,
+                },
+                new LinkStudentClass
+                {
+                    Id = Guid.NewGuid(),
+                    ClassId = classId5,
+                    StudentId = studentId1,
+            });
         }
     }
 }

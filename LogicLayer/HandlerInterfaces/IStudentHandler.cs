@@ -6,6 +6,6 @@ namespace LogicLayer.HandlerInterfaces
 {
     public interface IStudentHandler : IBasicHandler<Student>
     {
-        IEnumerable<Grade> GetGrades(Guid studentId);
+        IEnumerable<Student> GetClassStudents(Guid classId);
     }
 }

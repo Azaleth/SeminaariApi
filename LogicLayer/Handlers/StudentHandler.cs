@@ -4,14 +4,15 @@ using LogicLayer.HandlerInterfaces;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LogicLayer.Handlers
 {
     internal class StudentHandler : BaseHandler<Student, Db.Entities.Student>, IStudentHandler
     {
-        public IEnumerable<Grade> GetGrades(Guid studentId)
+        public IEnumerable<Student> GetClassStudents(Guid classId)
         {
-            return new GradeHandler().Convert((Handler as StudentDatabaseHandler).GetGrades(studentId));
+            return new StudentHandler().Convert((Handler as StudentDatabaseHandler).GetClassStudents(classId));
         }
 
         internal override Student Convert(Db.Entities.Student dbEntity)
@@ -22,9 +23,9 @@ namespace LogicLayer.Handlers
                 BirthDay = dbEntity.BirthDay,
                 FirstNames = dbEntity.FirstNames,
                 LastName = dbEntity.LastName,
-                //Classes = new ClassHandler().Convert(dbEntity.Classes),
-                Grades = new GradeHandler().Convert(dbEntity.Grades),
-            };            
+                Classes = dbEntity.ClassIds,
+                Grades = dbEntity.GradeIds,
+            };
         }
 
         internal override Db.Entities.Student Convert(Student apiEntity)

@@ -5,6 +5,8 @@ namespace Api.Entities
 {
     public class Grade : BaseEntity
     {
-        public Class Class { get; set; }
+        public Guid ClassId { get; set; }
+        public Guid TeacherId { get; set; }
+        public Guid StudentId { get; set; }
     }
 }

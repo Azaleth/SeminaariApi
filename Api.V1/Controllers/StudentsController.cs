@@ -16,7 +16,7 @@ namespace Api.V1.Controllers
 
         // GET api/Students
         [HttpGet("{id}/Grades")]
-        public IEnumerable<Grade> GetGrades(Guid id) => HandlerFactory.StudentHandler.GetGrades(id);
+        public IEnumerable<Grade> GetGrades(Guid id) => HandlerFactory.GradeHandler.GetStudentGrades(id);
 
         // GET api/Students/5
         [HttpGet("{id}")]
@@ -24,7 +24,7 @@ namespace Api.V1.Controllers
 
         // POST api/Students
         [HttpPost]
-        public Guid Post([FromBody] Student value) => HandlerFactory.StudentHandler.Add(value);
+        public Guid Post([FromBody] Student value) => HandlerFactory.StudentHandler.Insert(value);
 
         // PUT api/Students/5
         [HttpPut("{id}")]

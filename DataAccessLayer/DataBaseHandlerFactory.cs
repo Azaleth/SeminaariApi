@@ -16,9 +16,7 @@ namespace DataAccessLayer
             else if (entityType.IsAssignableFrom(typeof(Teacher)))
                 return new TeacherDataBaseHandler() as BaseDataBaseHandler<DaoEntity>;
             else if (entityType.IsAssignableFrom(typeof(Grade)))
-                return new GradeDataBaseHandler() as BaseDataBaseHandler<DaoEntity>;
-            else if (entityType.IsAssignableFrom(typeof(Person)))
-                return new PersonDataBaseHandler() as BaseDataBaseHandler<DaoEntity>;
+                return new GradeDataBaseHandler() as BaseDataBaseHandler<DaoEntity>;            
             else
                 throw new NotImplementedException();
         }

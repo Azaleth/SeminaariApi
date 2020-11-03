@@ -9,7 +9,7 @@ namespace LogicLayer.HandlerInterfaces
     {
         IEnumerable<T> Get(int skip, int take);
         T Get(Guid id);
-        Guid Add(T IEntity);
+        Guid Insert(T IEntity);
         void Update(Guid id, T IEntity);
         void Delete(Guid id);
     }
