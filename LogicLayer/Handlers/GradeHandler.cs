@@ -25,6 +25,7 @@ namespace LogicLayer.Handlers
                 StudentId = dbEntity.StudentId,               
                 ClassId = dbEntity.ClassId,
                 TeacherId = dbEntity.TeacherId,
+                Score = dbEntity.Score
             };
         }
 
@@ -35,7 +36,8 @@ namespace LogicLayer.Handlers
                 Id = apiEntity.Id,
                 StudentId = apiEntity.StudentId,
                 ClassId = apiEntity.ClassId,
-                TeacherId = apiEntity.TeacherId
+                TeacherId = apiEntity.TeacherId,
+                Score = apiEntity.Score
             };
         }
     }

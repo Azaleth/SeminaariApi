@@ -221,6 +221,7 @@ namespace DataAccessLayer
                     ClassId = classId1,
                     StudentId = studentId1,
                     TeacherId = teacherId1,
+                    Score = 6
                 },
                 new Grade
                 {
@@ -228,6 +229,7 @@ namespace DataAccessLayer
                     ClassId = classId2,
                     StudentId = studentId2,
                     TeacherId = teacherId2,
+                    Score = 5
                 },
                 new Grade
                 {
@@ -235,6 +237,7 @@ namespace DataAccessLayer
                     ClassId = classId3,
                     StudentId = studentId3,
                     TeacherId = teacherId3,
+                    Score = 7
                 },
                 new Grade
                 {
@@ -242,6 +245,7 @@ namespace DataAccessLayer
                     ClassId = classId4,
                     StudentId = studentId4,
                     TeacherId = teacherId4,
+                    Score = 9
                 },
                 new Grade
                 {
@@ -249,6 +253,7 @@ namespace DataAccessLayer
                     ClassId = classId5,
                     StudentId = studentId5,
                     TeacherId = teacherId5,
+                    Score = 10
                 },
                 new Grade
                 {
@@ -256,6 +261,7 @@ namespace DataAccessLayer
                     ClassId = classId6,
                     StudentId = studentId6,
                     TeacherId = teacherId6,
+                    Score = 8
                 });
         }
         protected virtual void InitStudents(SchoolDbContext context)
