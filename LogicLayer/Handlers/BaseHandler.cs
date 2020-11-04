@@ -1,12 +1,12 @@
 ﻿using Api.Entities;
 using DataAccessLayer;
-using DB = Db.Entities;
 using LogicLayer.HandlerInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using DataAccessLayer.Handlers;
+using DB = Db.Entities;
 
+//Allow test project access to internal functions
 [assembly: InternalsVisibleTo("Api.UnitTests")]
 namespace LogicLayer.Handlers
 {
@@ -22,24 +22,24 @@ namespace LogicLayer.Handlers
         {
             if (dbEntities == null)
                 return null;
-            List<API_ENTITY> students = new List<API_ENTITY>();
+            List<API_ENTITY> apiEntities = new List<API_ENTITY>();
             foreach (var item in dbEntities)
-                students.Add(Convert(item));
-            return students;
+                apiEntities.Add(Convert(item));
+            return apiEntities;
         }
         internal IEnumerable<DB_ENTITY> Convert(IEnumerable<API_ENTITY> dbEntities)
         {
-            List<DB_ENTITY> students = new List<DB_ENTITY>();
+            List<DB_ENTITY> apiEntities = new List<DB_ENTITY>();
             foreach (var item in dbEntities)
-                students.Add(Convert(item));
-            return students;
-        }        
+                apiEntities.Add(Convert(item));
+            return apiEntities;
+        }
 
-        protected BaseDataBaseHandler<DB_ENTITY> Handler => DataBaseHandlerFactory.GetHandler<DB_ENTITY>(typeof(DB_ENTITY));        
+        protected BaseDataBaseHandler<DB_ENTITY> Handler => DataBaseHandlerFactory.GetHandler<DB_ENTITY>(typeof(DB_ENTITY));
 
-        public Guid Insert(API_ENTITY IEntity)
+        public Guid Insert(API_ENTITY apiEntity)
         {
-            return Handler.Add(Convert(IEntity));
+            return Handler.Add(Convert(apiEntity));
         }
 
         public void Delete(Guid id)
@@ -57,9 +57,9 @@ namespace LogicLayer.Handlers
             return Convert((DB_ENTITY)Handler.Get(id));
         }
 
-        public void Update(Guid id, API_ENTITY IEntity)
+        public void Update(Guid id, API_ENTITY apiEntity)
         {
-            Handler.Update(id, Convert(IEntity));
-        }        
+            Handler.Update(id, Convert(apiEntity));
+        }
     }
 }

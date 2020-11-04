@@ -5,14 +5,14 @@ namespace Api.Entities
 {
     public class ApiError
     {
-        public string message { get; set; }
-        public bool isError { get; set; }
-        public string detail { get; set; }
+        public string Message { get; set; }
+        public bool IsError { get; set; }
+        public string Detail { get; set; }
 
         public ApiError(string message)
         {
-            this.message = message;
-            isError = true;
+            this.Message = message;
+            IsError = true;
         }
     }
 }
