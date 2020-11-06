@@ -6,8 +6,8 @@ namespace Db.Entities
 {
     public class Grade : BaseDbClass
     {
-        [Required]
-        public int? Score { get; set; }
+        [Required]        
+        public int Score { get; set; }
         [Required]
         [ForeignKey("ClassForeignKey")]
         public Guid ClassId { get; set; }

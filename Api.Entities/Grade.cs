@@ -6,7 +6,8 @@ namespace Api.Entities
     public class Grade : BaseEntity
     {
         [Required]
-        public int? Score { get; set; }
+        [Range(4, 10)]
+        public int Score { get; set; }
         [Required]
         public Guid ClassId { get; set; }
         [Required]
